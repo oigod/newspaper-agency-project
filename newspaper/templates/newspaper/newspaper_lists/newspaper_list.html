@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+  <a class="btn btn-outline-primary" href="{% url 'newspaper:newspaper-create' %}">Add Newspaper</a>
+  {% if newspaper_list %}
+    <div class="row">
+      {% for newspaper in newspaper_list %}
+        <div class="col-sm-6 ">
+          <div class="card mb-3 w-100 shadow" >
+            <div class="row g-0">
+              <div class="col-md-4">
+                <img src="{{ newspaper.image.url}}" class="img-fluid rounded-start" style="width: 100%; height: 100%" alt="...">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title">{{ newspaper.title }}</h5>
+                  <div class="d-flex w-100 justify-content-between">
+                    <p class="card-text"><small class="text-muted"></small>{{ newspaper.published_date }}</p>
+                    <div>
+                      <a data-bs-container="body" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left" data-bs-content="Edit this Newspaper?" href="{% url 'newspaper:newspaper-update' pk=newspaper.id %}"><i class="fa-solid fa-pen-to-square text-primary "></i></a>
+                      <a href="{% url 'newspaper:newspaper-delete' pk=newspaper.id %}"><i class="fa-solid fa-trash text-danger"></i></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    {% endfor %}
+    </div>
+  {% else %}
+    <p>There are no newspapers.</p>
+  {% endif %}
+{% endblock content %}
+{% block scripts %}
+{{ block.super }}
+  <script>
+  const popoverTriggerList = document.querySelectorAll(
+        '[data-bs-toggle="popover"]'
+    );
+  [...popoverTriggerList].map(
+        (popoverTriggerEl) => new bootstrap.Popover(popoverTriggerEl)
+    );
+  </script>
+{% endblock %}
