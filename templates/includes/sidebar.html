@@ -1,8 +1,9 @@
 {% if request.user.is_authenticated %}
   <ul class="sidebar-nav list-group">
-    <li class="list-group-item"><a href="#">Home</a></li>
-    <li class="list-group-item"><a href="#">Home</a></li>
-    <li class="list-group-item"><a href="#">Home</a></li>
-    <li class="list-group-item"><a href="#">Home</a></li>
+    <li class="list-group-item"><h5>{{ user.first_name }}</h5></li>
+    <li class="list-group-item"><a href="#">My Profile</a></li>
+    <li class="list-group-item"><a href="{% url 'newspaper:topic-list' %}">All Topics</a></li>
+    <li class="list-group-item"><a href="{% url 'newspaper:newspaper-list' %}">All Newspaper</a></li>
+    <li class="list-group-item"><a href="#">Our Team</a></li>
   </ul>
 {% endif %}

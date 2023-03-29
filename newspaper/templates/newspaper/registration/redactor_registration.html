@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load crispy_forms_filters %}
 {% block head %}
   {{ block.super }}
   {% block title %}
@@ -10,7 +11,7 @@
 {% block content %}
   <form action="" method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    {{ form|crispy }}
     <input type="submit" value="Submit" />
   </form>
 

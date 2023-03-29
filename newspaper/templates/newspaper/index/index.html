@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load crispy_forms_filters %}
 {% block head %}
   {{ block.super }}
   {% block title %}
@@ -11,7 +12,7 @@
   {% if not request.user.is_authenticated  %}
   <form action="{% url 'login' %}?next={% url 'newspaper:topic-list' %}" method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    {{ form|crispy }}
     <input class="btn btn-success" type="submit" value="Login" />
     or <a class="btn btn-info" href="{% url 'newspaper:redactor-create' %}">Create Account</a>
   </form>

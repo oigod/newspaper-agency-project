@@ -14,6 +14,10 @@ urlpatterns = [
     path("topics/<int:pk>/update/", views.TopicUpdateView.as_view(), name="topic-update"),
     path("topics/<int:pk>/delete/", views.TopicDeleteView.as_view(), name="topic-delete"),
     path("topics/<int:pk>/", views.TopicDetailView.as_view(), name="topic-detail"),
+    path("newspapers/create/", views.NewspaperCreateView.as_view(), name="newspaper-create"),
+    path("newspapers/<int:pk>/update/", views.NewspaperUpdateView.as_view(), name="newspaper-update"),
+    path("newspapers/<int:pk>/delete/", views.NewspaperDeleteView.as_view(), name="newspaper-delete"),
+    path("newspapers/", views.NewspaperListView.as_view(), name="newspaper-list"),
 
 ]
 

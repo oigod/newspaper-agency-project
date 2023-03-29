@@ -6,8 +6,8 @@ from django.contrib.auth import login
 from django.urls import reverse_lazy
 from django.views import generic
 
-from newspaper.forms import RedactorCreationForm
-from newspaper.models import Redactor, Topic
+from newspaper.forms import RedactorCreationForm, NewspaperForm
+from newspaper.models import Redactor, Topic, Newspaper
 
 
 class IndexView(generic.FormView):
@@ -53,3 +53,30 @@ class TopicDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Topic
     template_name = "newspaper/newspaper_confirms/topic_confirm_delete.html"
     success_url = reverse_lazy("newspaper:topic-list")
+
+
+class NewspaperListView(LoginRequiredMixin, generic.ListView):
+    model = Newspaper
+    context_object_name = "newspaper_list"
+    template_name = "newspaper/newspaper_lists/newspaper_list.html"
+    paginate_by = 5
+
+
+class NewspaperCreateView(LoginRequiredMixin, generic.CreateView):
+    form_class = NewspaperForm
+    model = Newspaper
+    success_url = reverse_lazy("newspaper:newspaper-list")
+    template_name = "newspaper/newspaper_forms/newspaper_form.html"
+
+
+class NewspaperUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Newspaper
+    form_class = NewspaperForm
+    success_url = reverse_lazy("newspaper:newspaper-list")
+    template_name = "newspaper/newspaper_forms/newspaper_form.html"
+
+
+class NewspaperDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Newspaper
+    success_url = reverse_lazy("newspaper:newspaper-list")
+    template_name = "newspaper/newspaper_confirms/newspaper_confirm_delete.html"
