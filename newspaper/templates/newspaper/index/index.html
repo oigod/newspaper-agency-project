@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block head %}
+  {{ block.super }}
+  {% block title %}
+    <title>Authentication</title>
+  {% endblock title %}
+{% endblock head %}
+
+
+{% block content %}
+  {% if not request.user.is_authenticated  %}
+  <form action="{% url 'login' %}?next={% url 'newspaper:topic-list' %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input class="btn btn-success" type="submit" value="Login" />
+    or <a class="btn btn-info" href="{% url 'newspaper:redactor-create' %}">Create Account</a>
+  </form>
+  {% else %}
+    <p>You are logged in as {{ request.user.username }}.</p>
+  {% endif %}
+{% endblock %}

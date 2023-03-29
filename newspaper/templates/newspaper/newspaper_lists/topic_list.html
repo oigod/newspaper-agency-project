@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+  <a class="btn btn-outline-primary" href="{% url 'newspaper:topic-create' %}">Add Topic</a>
+  {% if topic_list %}
+    <div class="row">
+      {% for topic in topic_list %}
+        <div class="col-sm-6 ">
+          <div class="card mb-3 w-100 shadow" >
+            <div class="row g-0">
+              <div class="col-md-4">
+                <img src="{{ topic.image.url}}" class="img-fluid rounded-start" style="width: 100%; height: 100%" alt="...">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title">{{ topic.name }}</h5>
+                  <p class="card-text">{{ topic.short_description }}</p>
+                  <div class="d-flex w-100 justify-content-between">
+                    <p class="card-text"><small class="text-muted"></small>{{ topic.date_added }}</p>
+                    <div>
+                      <a data-bs-container="body" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left" data-bs-content="Edit this Topic?" href="{% url 'newspaper:topic-update' pk=topic.id %}"><i class="fa-solid fa-pen-to-square text-primary "></i></a>
+                      <a href="{% url 'newspaper:topic-delete' pk=topic.id %}"><i class="fa-solid fa-trash text-danger"></i></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    {% endfor %}
+    </div>
+  {% else %}
+    <p>There are no topics.</p>
+  {% endif %}
+{% endblock content %}
+{% block scripts %}
+{{ block.super }}
+  <script>
+  const popoverTriggerList = document.querySelectorAll(
+        '[data-bs-toggle="popover"]'
+    );
+  [...popoverTriggerList].map(
+        (popoverTriggerEl) => new bootstrap.Popover(popoverTriggerEl)
+    );
+  </script>
+{% endblock %}
