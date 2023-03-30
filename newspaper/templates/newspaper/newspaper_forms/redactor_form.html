@@ -1,13 +1,39 @@
-{% extends 'base.html' %}
+{#{% extends "base.html" %}#}
+{#{% load crispy_forms_filters %}#}
+{##}
+{#{% block content %}#}
+{#  <h1>{{ object|yesno:"Update,Register" }} Redactor</h1>#}
+{#  <form action="" method="post" novalidate>#}
+{#    {% csrf_token %}#}
+{#    {{ form|crispy }}#}
+{##}
+{#    <input type="submit" value="Submit" class="btn btn-primary">#}
+{#  </form>#}
+{#{% endblock %}#}
+
+{% extends 'base-template.html' %}
 {% load crispy_forms_filters %}
 
 {% block content %}
-  <h1>{{ object|yesno:"Update,Create" }} Topic</h1>
-
-  <form action="" method="post" enctype="multipart/form-data">
-  {% csrf_token %}
-  {{ form|crispy }}
-  <div class="d-flex w-100 justify-content-left"><button type="submit" class="btn btn-success">Submit</button></div>
-  </form>
-
+  {% include "includes/navigation.html" %}
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header">{{ object|yesno:"Update,Create" }} Redactor</div>
+          <div class="card-body">
+            <form action="" method="post" enctype="multipart/form-data" novalidate>
+              {% csrf_token %}
+              {{ form|crispy }}
+              <button type="submit" class="btn btn-primary">Submit</button>
+              <a class="btn btn-secondary" href="{% url 'newspaper:redactor-detail' pk=redactor.id %}">Go Back</a>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock content %}
+
+{% block footer %}
+{% endblock footer %}
