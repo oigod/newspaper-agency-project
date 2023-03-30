@@ -10,7 +10,7 @@ from newspaper.forms import RedactorCreationForm, NewspaperForm, NewspaperSearch
 from newspaper.models import Redactor, Topic, Newspaper
 
 
-@login_required(login_url="/sign-in/")
+@login_required(login_url=reverse_lazy("newspaper:sign-in"))
 def index(request):
     """View function for the home page of the site."""
 
@@ -36,7 +36,7 @@ class TopicListView(LoginRequiredMixin, generic.ListView):
     context_object_name = "topic_list"
     template_name = "newspaper/newspaper_lists/topic_list.html"
     paginate_by = 4
-    login_url = "/sign-in/"
+    login_url = reverse_lazy("newspaper:sign-in")
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(TopicListView, self).get_context_data(**kwargs)
@@ -60,13 +60,13 @@ class TopicCreateView(LoginRequiredMixin, generic.CreateView):
     fields = "__all__"
     template_name = "newspaper/newspaper_forms/topic_form.html"
     success_url = reverse_lazy("newspaper:topic-list")
-    login_url = "/sign-in/"
+    login_url = reverse_lazy("newspaper:sign-in")
 
 
 class TopicDetailView(LoginRequiredMixin, generic.DetailView):
     model = Topic
     template_name = "newspaper/newspaper_details/topic_detail.html"
-    login_url = "/sign-in/"
+    login_url = reverse_lazy("newspaper:sign-in")
 
 
 class TopicUpdateView(LoginRequiredMixin, generic.UpdateView):
@@ -74,14 +74,14 @@ class TopicUpdateView(LoginRequiredMixin, generic.UpdateView):
     fields = "__all__"
     template_name = "newspaper/newspaper_forms/topic_form.html"
     success_url = reverse_lazy("newspaper:topic-list")
-    login_url = "/sign-in/"
+    login_url = reverse_lazy("newspaper:sign-in")
 
 
 class TopicDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Topic
     template_name = "newspaper/newspaper_confirms/topic_confirm_delete.html"
     success_url = reverse_lazy("newspaper:topic-list")
-    login_url = "/sign-in/"
+    login_url = reverse_lazy("newspaper:sign-in")
 
 
 class NewspaperListView(LoginRequiredMixin, generic.ListView):
@@ -89,7 +89,7 @@ class NewspaperListView(LoginRequiredMixin, generic.ListView):
     context_object_name = "newspaper_list"
     template_name = "newspaper/newspaper_lists/newspaper_list.html"
     paginate_by = 4
-    login_url = "/sign-in/"
+    login_url = reverse_lazy("newspaper:sign-in")
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(NewspaperListView, self).get_context_data(**kwargs)
@@ -111,7 +111,7 @@ class NewspaperListView(LoginRequiredMixin, generic.ListView):
 class NewspaperDetailView(LoginRequiredMixin, generic.DetailView):
     model = Newspaper
     template_name = "newspaper/newspaper_details/newspaper_detail.html"
-    login_url = "/sign-in/"
+    login_url = reverse_lazy("newspaper:sign-in")
 
 
 class NewspaperCreateView(LoginRequiredMixin, generic.CreateView):
@@ -119,7 +119,7 @@ class NewspaperCreateView(LoginRequiredMixin, generic.CreateView):
     model = Newspaper
     success_url = reverse_lazy("newspaper:newspaper-list")
     template_name = "newspaper/newspaper_forms/newspaper_form.html"
-    login_url = "/sign-in/"
+    login_url = reverse_lazy("newspaper:sign-in")
 
 
 class NewspaperUpdateView(LoginRequiredMixin, generic.UpdateView):
@@ -127,21 +127,21 @@ class NewspaperUpdateView(LoginRequiredMixin, generic.UpdateView):
     form_class = NewspaperForm
     success_url = reverse_lazy("newspaper:newspaper-list")
     template_name = "newspaper/newspaper_forms/newspaper_form.html"
-    login_url = "/sign-in/"
+    login_url = reverse_lazy("newspaper:sign-in")
 
 
 class NewspaperDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Newspaper
     success_url = reverse_lazy("newspaper:newspaper-list")
     template_name = "newspaper/newspaper_confirms/newspaper_confirm_delete.html"
-    login_url = "/sign-in/"
+    login_url = reverse_lazy("newspaper:sign-in")
 
 
 class RedactorDetailView(LoginRequiredMixin, generic.DetailView):
     model = Redactor
     context_object_name = "redactor"
     template_name = "newspaper/newspaper_details/redactor_detail.html"
-    login_url = "/sign-in/"
+    login_url = reverse_lazy("newspaper:sign-in")
 
 
 class RedactorListView(LoginRequiredMixin, generic.ListView):
@@ -149,7 +149,7 @@ class RedactorListView(LoginRequiredMixin, generic.ListView):
     context_object_name = "redactor_list"
     template_name = "newspaper/newspaper_lists/redactor_list.html"
     paginate_by = 5
-    login_url = "/sign-in/"
+    login_url = reverse_lazy("newspaper:sign-in")
 
     class Meta:
         ordering = ["name"]
@@ -159,16 +159,19 @@ class RedactorDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Redactor
     success_url = "/"
     template_name = "newspaper/newspaper_confirms/redactor_confirm_delete.html"
-    login_url = "/sign-in/"
+    login_url = reverse_lazy("newspaper:sign-in")
 
 
 class RedactorUpdateView(LoginRequiredMixin, generic.UpdateView):
     form_class = RedactorUpdateForm
     model = Redactor
-    success_url = reverse_lazy("newspaper:redactor-list")
 
     template_name = "newspaper/newspaper_forms/redactor_form.html"
-    login_url = "/sign-in/"
+    login_url = reverse_lazy("newspaper:sign-in")
+
+    def form_valid(self, form):
+        form.save()
+        return redirect(reverse("newspaper:redactor-detail", kwargs={"pk": self.object.pk}))
 
 
 class LoginView(auth_views.LoginView):
@@ -184,7 +187,7 @@ class LoginView(auth_views.LoginView):
 class LogoutView(LoginRequiredMixin, auth_views.LogoutView):
     next_page = reverse_lazy("newspaper:sign-in")
     template_name = "registration/page-sign-in.html"
-    login_url = "/sign-in/"
+    login_url = reverse_lazy("newspaper:sign-in")
 
 
 class RedactorCreateView(generic.CreateView):
