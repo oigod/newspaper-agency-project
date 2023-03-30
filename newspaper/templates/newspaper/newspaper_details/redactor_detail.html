@@ -1,0 +1,91 @@
+{% extends 'base-template.html' %}
+
+{% block title %} Author {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block body_class %} blog-author bg-gray-100 {% endblock body_class %}
+
+{% block content %}
+
+  {% include "includes/navigation.html" %}
+
+  <section class="py-sm-7 py-5 position-relative">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 mx-auto">
+          <div class="row py-lg-7 py-5">
+            <div class="col-lg-3 col-md-5 position-relative my-auto">
+              <img class="img border-radius-lg max-width-200 w-100 position-relative z-index-2" src="https://ui-avatars.com/api/?name={{ request.user.get_full_name }}">
+            </div>
+            <div class="col-lg-7 col-md-7 z-index-2 position-relative px-md-2 px-sm-5 mt-sm-0 mt-4">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <h4 class="mb-0">{{ redactor.username }}</h4>
+              </div>
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <h5 class="mb-0">{{ redactor.first_name }} {{ redactor.last_name }}</h5>
+              </div>
+
+              <p class="text-lg mb-0">
+                Years of active writing: {{ redactor.years_of_experience }} <br>
+              </p>
+              <div>
+
+                <a href="{% url 'newspaper:redactor-update' pk=redactor.id %}" class="btn btn-primary">Update</a>
+                <a href="{% url 'newspaper:redactor-delete' pk=redactor.id %}" class="btn btn-danger">Delete</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-3">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6">
+          <h3 class="mb-5">Check my latest works :</h3>
+        </div>
+      </div>
+      <div class="row">
+        {% for new in redactor.newspapers.all %}
+          <div class="col-lg-3 col-sm-6">
+          <div class="card card-plain card-blog">
+            <div class="card-image border-radius-lg position-relative">
+              <a href="javascript:;">
+                <img class="w-100 border-radius-lg move-on-hover shadow" src="{{ new.image.url }}">
+              </a>
+            </div>
+            <div class="card-body px-0">
+              <h5>
+                <a href="javascript:;" class="text-dark font-weight-bold">{{ new.title }}</a>
+              </h5>
+              <p>
+                {{ new.content|truncatechars:60 }}
+              </p>
+              <a href="{% url 'newspaper:newspaper-detail' pk=new.id %}" class="text-info icon-move-right">Read More
+                <i class="fas fa-arrow-right text-sm"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+{% endblock content %}
+{% block footer %}
+
+{% endblock %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+
+  <script src="{{ ASSETS_ROOT }}/js/soft-design-system.min.js?v=1.0.1" type="text/javascript"></script>
+
+{% endblock javascripts %}
