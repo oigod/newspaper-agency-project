@@ -1,48 +1,83 @@
-{% extends 'base.html' %}
+{% extends 'base-template.html' %}
+{% load crispy_forms_filters %}
 
+{% block title %} Author {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block body_class %} blog-author bg-gray-100 {% endblock body_class %}
 
 {% block content %}
-  <a class="btn btn-outline-primary" href="{% url 'newspaper:topic-create' %}">Add Topic</a>
-  {% if topic_list %}
-    <div class="row">
-      {% for topic in topic_list %}
-        <div class="col-sm-6 ">
-          <div class="card mb-3 w-100 shadow" >
-            <div class="row g-0">
-              <div class="col-md-4">
-                <img src="{{ topic.image.url}}" class="img-fluid rounded-start" style="width: 100%; height: 100%" alt="...">
+
+  {% include "includes/navigation.html" %}
+
+
+  <section class="py-3">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6">
+          <h3 class="mb-5">Our Topics:</h3>
+        </div>
+      </div>
+      <div class="row">
+          <form action="" method="get" class="form-inline my-3">
+            {% csrf_token %}
+            <div class="input-group">
+              {{ search_form|crispy }}
+              <div class="input-group-append">
+                <button class="btn btn-primary" type="submit">
+                  <i class="fas fa-search"></i>
+                </button>
+                <a href="{% url 'newspaper:topic-create' %}" class="btn btn-primary">
+                  Create
+                </a>
               </div>
-              <div class="col-md-8">
-                <div class="card-body">
-                  <h5 class="card-title">{{ topic.name }}</h5>
-                  <p class="card-text">{{ topic.short_description }}</p>
-                  <div class="d-flex w-100 justify-content-between">
-                    <p class="card-text"><small class="text-muted"></small>{{ topic.date_added }}</p>
-                    <div>
-                      <a data-bs-container="body" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="left" data-bs-content="Edit this Topic?" href="{% url 'newspaper:topic-update' pk=topic.id %}"><i class="fa-solid fa-pen-to-square text-primary "></i></a>
-                      <a href="{% url 'newspaper:topic-delete' pk=topic.id %}"><i class="fa-solid fa-trash text-danger"></i></a>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            </div>
+          </form>
+        {% if topic_list %}
+        {% for topic in topic_list %}
+          <div class="col-lg-3 col-sm-6">
+          <div class="card card-plain card-blog">
+            <div class="card-image border-radius-lg position-relative">
+              <a href="{% url 'newspaper:topic-detail' pk=topic.id %}">
+                <img class="w-100 border-radius-lg move-on-hover shadow" src="{{ topic.image.url }}">
+              </a>
+            </div>
+            <div class="card-body px-0">
+              <h5>
+                <a href="javascript:;" class="text-dark font-weight-bold">{{ topic.name }}</a>
+              </h5>
+              <p>
+                {{ topic.short_description }}
+              </p>
+              <a href="{% url 'newspaper:topic-update' pk=topic.id %}" class="text-info icon-move-right">Edit this Topic
+                <i>|</i>
+              </a>
+              <a href="{% url 'newspaper:topic-detail' pk=topic.id %}" class="text-info icon-move-right">Read More
+                <i class="fas fa-arrow-right text-sm"></i>
+              </a>
             </div>
           </div>
         </div>
-
-    {% endfor %}
+        {% endfor %}
+          {% else %}
+          No Topics yet.
+      {% endif %}
+        </div>
+      </div>
     </div>
-  {% else %}
-    <p>There are no topics.</p>
-  {% endif %}
+  </section>
+
+
 {% endblock content %}
-{% block scripts %}
-{{ block.super }}
-  <script>
-  const popoverTriggerList = document.querySelectorAll(
-        '[data-bs-toggle="popover"]'
-    );
-  [...popoverTriggerList].map(
-        (popoverTriggerEl) => new bootstrap.Popover(popoverTriggerEl)
-    );
-  </script>
+{% block footer %}
+
 {% endblock %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+
+  <script src="{{ ASSETS_ROOT }}/js/soft-design-system.min.js?v=1.0.1" type="text/javascript"></script>
+
+{% endblock javascripts %}

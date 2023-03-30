@@ -1,0 +1,58 @@
+
+
+{% extends 'base-template.html' %}
+{% load crispy_forms_filters %}
+
+{% block title %} Author {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block body_class %} blog-author bg-gray-100 {% endblock body_class %}
+
+{% block content %}
+
+  {% include "includes/navigation.html" %}
+
+  <section class="py-3">
+
+    <div class="table-responsive">
+      <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">id</th>
+          <th scope="col">Full Name</th>
+          <th scope="col">Newspapers</th>
+          <th scope="col">Username</th>
+        </tr>
+      </thead>
+
+      <tbody>
+      {% for redactor in redactor_list %}
+        <tr>
+          <td><a href="{% url 'newspaper:redactor-detail' pk=redactor.id %}">{{ redactor.id }}</a></td>
+          <td>{{ redactor.first_name }} {{ redactor.last_name }}{% if request.user.id == redactor.id %} (Me){% endif %}</td>
+          <td>{{ redactor.newspapers.count }}</td>
+          <td>{{ redactor.username }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+{% endblock content %}
+{% block footer %}
+
+{% endblock %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+
+  <script src="{{ ASSETS_ROOT }}/js/soft-design-system.min.js?v=1.0.1" type="text/javascript"></script>
+
+{% endblock javascripts %}
