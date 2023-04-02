@@ -5,7 +5,7 @@ Django project for managing newspaper and redactors in a newspaper agency.
 
 ## Check the project:
 
-- [x] [Newspaper Agency](https://www.djangoproject.com/)
+- [x] [Newspaper Agency](https://newspaper-agency-z8y6.onrender.com/)
 
 
 ## Requirements:
@@ -28,6 +28,11 @@ python manage.py runserver
 * [x] Create, update and delete article
 * [x] Authentication and Registration
 * [x] Admin panel
+
+
+## Test User:
+* [x] Username: user_test
+* [x] Password: 1qazcde3
 
 ## Demo View:
 ![Screenshot](project%20demo.png)
