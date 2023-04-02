@@ -11,10 +11,10 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
 from pathlib import Path
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -26,7 +26,6 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-8u^zby*36!pzc)
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
 ALLOWED_HOSTS = ["127.0.0.1"]
-
 
 # Application definition
 
@@ -46,6 +45,7 @@ CRISPY_TEMPLATE_PACK = "Bootstrap5"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -76,7 +76,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'newspaper_agency.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
@@ -87,6 +86,9 @@ DATABASES = {
     }
 }
 
+# dj-database-url
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -106,7 +108,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
@@ -118,16 +119,14 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / "static"
+STATIC_URL = "static/"
+STATIC_ROOT = "staticfiles/"
 STATICFILES_DIRS = [
     BASE_DIR / "newspaper_agency/static"
 ]
-
 
 ASSETS_ROOT = "/static/assets"
 # Default primary key field type
@@ -142,4 +141,3 @@ LOGIN_REDIRECT_URL = "/"
 MEDIA_URL = "media/"
 
 MEDIA_ROOT = BASE_DIR / "media"
-
