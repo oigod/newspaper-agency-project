@@ -22,6 +22,12 @@ pip install -r requirements.txt
 python manage.py migrate
 python manage.py runserver
 ```
+## Enviromental variables:
+```shell
+DJANGO_SETTINGS_MODULE=config.settings;
+DJANGO_DEBUG=True
+DATABASE_URL=postgres://ahlcbanq:mOKAp83rEgOsZJiBY8ivVvu3V3ssOhve@snuffleupagus.db.elephantsql.com/ahlcbanq
+```
 
 ## Features:
 * [x] Create, update and delete newspaper
