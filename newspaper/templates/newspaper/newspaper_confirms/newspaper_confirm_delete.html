@@ -1,0 +1,46 @@
+
+{% extends 'base-template.html' %}
+
+{% block title %} Delete Form {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+  {% include "includes/navigation.html" %}
+
+  <section class="py-sm-7 py-5 position-relative">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 mx-auto">
+          <div class="row py-lg-7 py-5">
+            <div class="col-lg-7 col-md-7 z-index-2 position-relative px-md-2 px-sm-5 mt-sm-0 mt-4">
+              <form action="" method="post">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <div>
+                  <h4 class="mb-0">Are you sure for deleting?</h4>
+                  <h5 class="mb-0"> You will not be able to restore your data after this action!</h5>
+                </div>
+                  {% csrf_token %}
+              </div>
+              <input type="submit" value="Delete!" class="btn btn-danger">
+                <a href="{% url 'newspaper:newspaper-detail' pk=newspaper.id %}" class="btn btn-secondary">Cancel</a>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% endblock content %}
+{% block footer %}
+{% endblock %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+
+  <script src="{{ ASSETS_ROOT }}/js/soft-design-system.min.js?v=1.0.1" type="text/javascript"></script>
+
+{% endblock javascripts %}

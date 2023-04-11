@@ -1,0 +1,83 @@
+{% extends 'base-template.html' %}
+{% load crispy_forms_filters %}
+
+{% block title %} News {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block body_class %} blog-author bg-gray-100 {% endblock body_class %}
+
+{% block content %}
+
+  {% include "includes/navigation.html" %}
+
+  <section class="py-3">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6">
+          <h3 class="mb-5">Our Newspapers:</h3>
+        </div>
+      </div>
+      <div class="row">
+      <form action="" method="get" class="form-inline my-3">
+        {% csrf_token %}
+        <div class="input-group">
+          {{ search_form|crispy }}
+          <div class="input-group-append">
+            <button class="btn btn-primary" type="submit">
+              <i class="fas fa-search"></i>
+            </button>
+            <a href="{% url 'newspaper:newspaper-create' %}" class="btn btn-primary">
+                  Create
+            </a>
+          </div>
+        </div>
+      </form>
+
+        {% for newspaper in newspaper_list %}
+          <div class="col-lg-3 col-sm-6">
+          <div class="card card-plain card-blog">
+            <div class="card-image border-radius-lg position-relative">
+              <a href="javascript:;">
+                <img class="w-100 border-radius-lg move-on-hover shadow" src="{{ newspaper.image.url }}">
+              </a>
+            </div>
+            <div class="card-body px-0">
+              <h5>
+                <a href="javascript:;" class="text-dark font-weight-bold">{{ newspaper.title }}</a>
+              </h5>
+              <p>
+                {{ newspaper.content|truncatechars:100}}
+                <b></b>
+                <h5>
+                  Written by:
+                  {% for redactor in newspaper.publishers.all %}
+                    <a href="{% url 'newspaper:redactor-detail' pk=redactor.id %}"> {{ redactor.username }}</a>
+                  {% endfor %}
+                </h5>
+              </p>
+              <a href="{% url 'newspaper:newspaper-detail' pk=newspaper.id %}" class="text-info icon-move-right">Read More
+                <i class="fas fa-arrow-right text-sm"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+{% endblock content %}
+{% block footer %}
+
+{% endblock %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+
+  <script src="{{ ASSETS_ROOT }}/js/soft-design-system.min.js?v=1.0.1" type="text/javascript"></script>
+
+{% endblock javascripts %}

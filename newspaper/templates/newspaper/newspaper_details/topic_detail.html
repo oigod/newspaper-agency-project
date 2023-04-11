@@ -1,0 +1,103 @@
+{#{% extends 'base.html' %}#}
+{##}
+{##}
+{#{% block content %}#}
+{#  <h1>Newspapers of: "{{ topic.name }}" topic</h1>#}
+{#  <a class="btn btn-outline-primary" href="{% url 'newspaper:newspaper-create' %}">Create Newspaper</a>#}
+{##}
+{#  {% if topic.newspapers.all %}#}
+{#    <div class="row">#}
+{#      {% for newspaper in topic.newspapers.all %}#}
+{#        <div class="col-sm-6 ">#}
+{#          <div class="card mb-3 w-100 shadow" >#}
+{#            <div class="row g-0">#}
+{#              <div class="col-md-4">#}
+{#               <img src="{{ newspaper.image.url}}" class="img-fluid rounded-start" style="width: 100%; height: 100%" alt="...">#}
+{#              </div>#}
+{#              <div class="col-md-8">#}
+{#                <div class="card-body">#}
+{#                  <h5 class="card-title">{{ newspaper.title }}</h5>#}
+{#                  <p class="card-text"><small class="text-muted"></small>{{ newspaper.published_date }}</p>#}
+{#                </div>#}
+{#              </div>#}
+{#            </div>#}
+{#          </div>#}
+{#        </div>#}
+{##}
+{#    {% endfor %}#}
+{#    </div>#}
+{#  {% else %}#}
+{#    <p>There are no topics.</p>#}
+{#  {% endif %}#}
+{#{% endblock content %}#}
+
+
+{% extends 'base-template.html' %}
+
+{% block title %} Author {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+
+  {% include "includes/navigation.html" %}
+
+  <section class="py-sm-7 py-5 position-relative">
+
+    <div class="container">
+          <h3>Newspapers of "{{ topic.name }}" topic :</h3>
+      <a class="btn btn-secondary" href="{% url 'newspaper:newspaper-create' %}">Create</a>
+      <div class="row">
+        <div class="col-12 mx-auto">
+          <div class="row py-lg-7 py-5">
+            {% if topic.newspapers.all %}
+          {%  for newspaper in topic.newspapers.all %}
+          <div class="col-lg-3 col-sm-6">
+          <div class="card card-plain card-blog">
+            <div class="card-image border-radius-lg position-relative">
+              <a href="{% url 'newspaper:newspaper-detail' pk=newspaper.id %}">
+                <img class="w-100 border-radius-lg move-on-hover shadow" src="{{ newspaper.image.url}}">
+              </a>
+            </div>
+            <div class="card-body px-0">
+              <h5>
+                <a href="javascript:;" class="text-dark font-weight-bold">{{ newspaper.title }}</a>
+              </h5>
+              <p>
+                {{ newspaper.content|truncatechars:100}}
+                <b></b>
+                <h5>
+                  Written by:
+                  {% for redactor in newspaper.publishers.all %}
+                    <a href="{% url 'newspaper:redactor-detail' pk=redactor.id %}"> {{ redactor.username }}</a>
+                  {% endfor %}
+                </h5>
+              </p>
+              <a href="{% url 'newspaper:newspaper-detail' pk=newspaper.id %}" class="text-info icon-move-right">Read More
+                <i class="fas fa-arrow-right text-sm"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        {% else %}
+          <p>There are no newspapers.</p>
+          {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% endblock content %}
+{% block footer %}
+{% endblock %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+
+  <script src="{{ ASSETS_ROOT }}/js/soft-design-system.min.js?v=1.0.1" type="text/javascript"></script>
+
+{% endblock javascripts %}

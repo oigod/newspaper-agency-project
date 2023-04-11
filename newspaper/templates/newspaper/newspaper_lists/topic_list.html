@@ -1,0 +1,83 @@
+{% extends 'base-template.html' %}
+{% load crispy_forms_filters %}
+
+{% block title %} Topics {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block body_class %} blog-author bg-gray-100 {% endblock body_class %}
+
+{% block content %}
+
+  {% include "includes/navigation.html" %}
+
+
+  <section class="py-3">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6">
+          <h3 class="mb-5">Our Topics:</h3>
+        </div>
+      </div>
+      <div class="row">
+          <form action="" method="get" class="form-inline my-3">
+            {% csrf_token %}
+            <div class="input-group">
+              {{ search_form|crispy }}
+              <div class="input-group-append">
+                <button class="btn btn-primary" type="submit">
+                  <i class="fas fa-search"></i>
+                </button>
+                <a href="{% url 'newspaper:topic-create' %}" class="btn btn-primary">
+                  Create
+                </a>
+              </div>
+            </div>
+          </form>
+        {% if topic_list %}
+        {% for topic in topic_list %}
+          <div class="col-lg-3 col-sm-6">
+          <div class="card card-plain card-blog">
+            <div class="card-image border-radius-lg position-relative">
+              <a href="{% url 'newspaper:topic-detail' pk=topic.id %}">
+                <img class="w-100 border-radius-lg move-on-hover shadow" src="{{ topic.image.url }}">
+              </a>
+            </div>
+            <div class="card-body px-0">
+              <h5>
+                <a href="javascript:;" class="text-dark font-weight-bold">{{ topic.name }}</a>
+              </h5>
+              <p>
+                {{ topic.short_description }}
+              </p>
+              <a href="{% url 'newspaper:topic-update' pk=topic.id %}" class="text-info icon-move-right">Edit this Topic
+                <i>|</i>
+              </a>
+              <a href="{% url 'newspaper:topic-detail' pk=topic.id %}" class="text-info icon-move-right">Read More
+                <i class="fas fa-arrow-right text-sm"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+          {% else %}
+          No Topics yet.
+      {% endif %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+{% endblock content %}
+{% block footer %}
+
+{% endblock %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+
+  <script src="{{ ASSETS_ROOT }}/js/soft-design-system.min.js?v=1.0.1" type="text/javascript"></script>
+
+{% endblock javascripts %}
