@@ -40,7 +40,9 @@
           <div class="card card-plain card-blog">
             <div class="card-image border-radius-lg position-relative">
               <a href="javascript:;">
+                {% if newspaper.image %}
                 <img class="w-100 border-radius-lg move-on-hover shadow" src="{{ newspaper.image.url }}">
+                {% endif %}
               </a>
             </div>
             <div class="card-body px-0">

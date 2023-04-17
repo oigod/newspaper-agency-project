@@ -17,9 +17,17 @@ Python3 must be installed in your system.
 git clone https://github.com/oigod/newspaper-agency-project.git
 cd newspaper-agency-project
 python3 -m venv venv
-source venv/bin/activate
+venv\Scripts\activate (on Windows)
+source venv/bin/activate (on macOS)
 pip install -r requirements.txt
+python manage.py migrate
 python manage.py runserver
+```
+## Environmental variables:
+```shell
+DJANGO_SETTINGS_MODULE=config.settings;
+DJANGO_DEBUG=True
+DATABASE_URL=*provide link for your database here*
 ```
 
 ## Features:
