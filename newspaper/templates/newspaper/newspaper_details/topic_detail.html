@@ -1,37 +1,3 @@
-{#{% extends 'base.html' %}#}
-{##}
-{##}
-{#{% block content %}#}
-{#  <h1>Newspapers of: "{{ topic.name }}" topic</h1>#}
-{#  <a class="btn btn-outline-primary" href="{% url 'newspaper:newspaper-create' %}">Create Newspaper</a>#}
-{##}
-{#  {% if topic.newspapers.all %}#}
-{#    <div class="row">#}
-{#      {% for newspaper in topic.newspapers.all %}#}
-{#        <div class="col-sm-6 ">#}
-{#          <div class="card mb-3 w-100 shadow" >#}
-{#            <div class="row g-0">#}
-{#              <div class="col-md-4">#}
-{#               <img src="{{ newspaper.image.url}}" class="img-fluid rounded-start" style="width: 100%; height: 100%" alt="...">#}
-{#              </div>#}
-{#              <div class="col-md-8">#}
-{#                <div class="card-body">#}
-{#                  <h5 class="card-title">{{ newspaper.title }}</h5>#}
-{#                  <p class="card-text"><small class="text-muted"></small>{{ newspaper.published_date }}</p>#}
-{#                </div>#}
-{#              </div>#}
-{#            </div>#}
-{#          </div>#}
-{#        </div>#}
-{##}
-{#    {% endfor %}#}
-{#    </div>#}
-{#  {% else %}#}
-{#    <p>There are no topics.</p>#}
-{#  {% endif %}#}
-{#{% endblock content %}#}
-
-
 {% extends 'base-template.html' %}
 
 {% block title %} Author {% endblock title %}
@@ -48,7 +14,8 @@
 
     <div class="container">
           <h3>Newspapers of "{{ topic.name }}" topic :</h3>
-      <a class="btn btn-secondary" href="{% url 'newspaper:newspaper-create' %}">Create</a>
+      <a class="btn btn-secondary" href="{% url 'newspaper:newspaper-create' %}">Create Newspaper</a>
+      <a class="btn btn-danger" href="{% url 'newspaper:topic-delete' pk=topic.id %}">Delete Topic</a>
       <div class="row">
         <div class="col-12 mx-auto">
           <div class="row py-lg-7 py-5">
